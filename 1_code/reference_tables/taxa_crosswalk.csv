@@ -1,0 +1,25 @@
+raw_name,lookup_name,confidence,status,note
+Lepidoptrea.UID,Lepidoptera.UID,high,provisional,typo
+Ceratopogonide,Ceratopogonidae.UID,high,provisional,typo; coarse-level count
+Ylodes.ruteri,Ylodes.reuteri,high,provisional,typo
+Liodessus.affinus,Liodessus.affinis,high,provisional,typo
+Neoporus.superiorus,Neoporus.superioris,high,provisional,typo
+Peltodytes,Peltodytes.sp.,high,provisional,genus-level name
+Chironomidae,Chironomidae.UID,high,provisional,"coarse-level count; lookup parent, expect no children so kept as is"
+Tipulidae,Tipulidae.UID,high,provisional,coarse-level count
+Culicidae,Culicidae.UID,high,provisional,coarse-level count
+Chaoboridae,Chaoboridae.UID,high,provisional,coarse-level count
+Other.Diptera,Other.Diptera.UID,high,provisional,coarse-level count
+Other:.Conchostraca,Conchostraca.UID,high,provisional,coarse-level count
+Total.Primary.Organisms,,high,provisional,"row total, not a taxon (checked in 3.2)"
+Coenagrion/Enallagma.sp.,Coenagrionidae.UID,medium,provisional,CABIN precedent; lookup Final_ID 'Coenagrion/Enallagma' maps here
+Hygrotus.sp.,Hygrotus.sp.other,medium,provisional,CABIN precedent
+Terrestrial,Do.not.analyze,medium,provisional,terrestrial specimens; dropped in 3.3
+Hygrotus.marklini,Hygrotus.sp.other,low,provisional,species not in lookup; extends the CABIN Hygrotus.sp. rule
+Hygrotus.sellatus,Hygrotus.sp.other,low,provisional,species not in lookup; extends the CABIN Hygrotus.sp. rule
+Berosus.hatchi,Berosus.sp.,low,provisional,species not in lookup
+Liodessus.adjectus.?,Liodessus.sp.,low,provisional,"uncertain ID, species not in lookup"
+Stictotarsus.?,Stictotarsus.sp.,low,provisional,uncertain ID
+Planorbella.morph,Planorbella.sp.,low,provisional,morphotype; assumed genus-level
+Sigara/Callicorixa.sp.,Corixidae.UID,low,provisional,genus pair; family-level parent is the closest lookup row
+Saldidae.UID,,low,provisional,no lookup entry; left out until one is added
