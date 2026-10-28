@@ -36,7 +36,7 @@ vignettes/*.pdf
 *.knit.md
 
 
-# Ignore everything in 0_code
+# Ignore everything in 0_data
 0_data/*
 !0_code/*.gitkeep
 
@@ -48,9 +48,4 @@ vignettes/*.pdf
 3_output/*
 !3_output/*.gitkeep
 
-# Ignore everything in 4_writing
-4_writing/*
-!4_writing/*.gitkeep
-
-5_presentations/*
-!5_presentations/*.gitkeep
+AGENTS.md
