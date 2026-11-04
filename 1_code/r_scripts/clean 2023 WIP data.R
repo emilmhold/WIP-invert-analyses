@@ -2,7 +2,7 @@
 # title: clean 2023 WIP data
 # author: Emily H
 # created: "2026-10-21"
-# last edited: 2026-10-27
+# last edited: 2026-10-29
 # inputs: [input_data.csv]
 # outputs: [results.csv]
 # notes: 
@@ -24,7 +24,7 @@ library(tidyverse)
 
 ## 1.3 Import data ----
 # lookup
-lookup <- read_csv("0_data/external/Look-up Table_Invert Taxonomy_2023-09-28.csv")
+lookup <- read_excel("0_data/external/Look-up Table_Invert Taxonomy_2024-08-27.xlsx")
 str(lookup)
 
 # coarse data
