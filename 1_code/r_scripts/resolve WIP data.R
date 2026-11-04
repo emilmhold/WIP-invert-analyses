@@ -64,7 +64,7 @@ strata_primary <- NULL
 strata_secondary <- NULL
 
 ## 1.3 Source functions ----
-source("1_code/r_scripts/functions/Taxonomic ambiguous assignment abmi_clean.R")
+source("1_code/r_scripts/functions/Taxonomic ambiguous assignment abmi_UMOSfix.R")
 source("1_code/r_scripts/functions/WIP pipeline helpers.R")
 
 ## 1.4 Import data ----
@@ -75,8 +75,8 @@ stopifnot(
   "lookup_file does not exist" = file.exists(lookup_file)
 )
 
-# coarse data (QA only; the algorithm does not use it)
-coarse_data <- read_rds(processed_path("coarse_clean"))
+# # coarse data (QA only; the algorithm does not use it)
+# coarse_data <- read_rds(processed_path("coarse_clean"))
 
 # Marchant cells counted per sample
 marchant_counts <- read_rds(processed_path("marchant_counts"))
