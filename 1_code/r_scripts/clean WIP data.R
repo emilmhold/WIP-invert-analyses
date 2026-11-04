@@ -24,8 +24,8 @@
 
 ## 1.1 Settings ----
 # Keep wip_year and lookup_file the same in "resolve WIP data.R"
-wip_year <- 2023
-lookup_file <- "0_data/external/Look-up Table_Invert Taxonomy_2023-09-28.csv"
+wip_year <- 2024
+lookup_file <- "0_data/external/Look-up Table_Invert Taxonomy_2024-08-27.xlsx"
 
 # Sheet names in the year's workbooks
 sheet_fine <- "RAW Counts"        # DPAC-SG workbook, main (fine-level) counts
