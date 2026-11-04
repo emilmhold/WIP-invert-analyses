@@ -16,12 +16,25 @@ reference_dir <- "1_code/reference_tables"
 # Read the invertebrate taxonomy lookup and add Taxon_Analysis -------------
 # Taxon_Analysis = Analysis_Grouping, except that parents marked
 # "Distribute.to.Children" keep their own Analysis_Name.
-read_invert_lookup <- function(file) {
-  lookup <- read.csv(file, fileEncoding = "latin1")
+# Reads .csv (latin1) or .xlsx/.xls (first sheet unless `sheet` is given).
+read_invert_lookup <- function(file, sheet = 1) {
+  if (grepl("\\.xlsx?$", file, ignore.case = TRUE)) {
+    lookup <- as.data.frame(readxl::read_excel(file, sheet = sheet, col_types = "text"))
+    # Match read.csv: syntactic column names, empty cells as "", numeric-looking columns converted
+    names(lookup) <- make.names(names(lookup))
+    lookup[] <- lapply(lookup, \(x) ifelse(is.na(x), "", x))
+    lookup[] <- lapply(lookup, utils::type.convert, as.is = TRUE)
+  } else {
+    lookup <- read.csv(file, fileEncoding = "latin1")
+  }
   # Trailing non-breaking spaces (0xA0) in some Phylum / Order / Family /
   # Subfamily cells would split taxa when the algorithm matches on rank
   is_chr <- vapply(lookup, is.character, logical(1))
   lookup[is_chr] <- lapply(lookup[is_chr], \(x) trimws(gsub("\u00a0", " ", x, fixed = TRUE)))
+
+  # The 2024-08-27 xlsx writes "Distribute to Children" / "Other Diptera";
+  # the algorithms and the csv lookups use dots
+  lookup$Analysis_Grouping <- gsub(" ", ".", lookup$Analysis_Grouping, fixed = TRUE)
 
   lookup$Taxon_Analysis <- lookup$Analysis_Grouping
   parent <- which(lookup$Taxon_Analysis == "Distribute.to.Children")
@@ -32,7 +45,11 @@ read_invert_lookup <- function(file) {
 # Read the name crosswalk --------------------------------------------------
 # One row per raw name that is not an Analysis_Name in the lookup.
 # lookup_name = NA means "leave out of the analysis".
+# The file is created by "build taxa crosswalk.R" (decisions are listed there).
 read_taxa_crosswalk <- function(file = file.path(reference_dir, "taxa_crosswalk.csv")) {
+  if (!file.exists(file)) {
+    stop("Crosswalk not found: ", file, ". Run '1_code/r_scripts/build taxa crosswalk.R' to create it.")
+  }
   xw <- readr::read_csv(file, col_types = readr::cols(.default = "c"), na = c("", "NA"))
   needed <- c("raw_name", "lookup_name", "confidence", "status", "note")
   if (!all(needed %in% names(xw))) {
