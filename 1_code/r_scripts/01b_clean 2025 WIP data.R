@@ -2,9 +2,15 @@
 # title: clean 2025 WIP data
 # author: Emily H
 # created: "2026-10-29"
-# last edited: 2026-10-29
-# inputs: [input_data.csv]
-# outputs: [results.csv]
+# last edited: 2026-11-10
+# inputs: [0_data/external/Advanced ID_WGP_2025_AB_spring.xlsx,
+#          0_data/external/Advanced ID_WGP_2025_AB_summer_CORRECTED-7Oct2026.xlsx,
+#          0_data/external/Look-up Table_Invert Taxonomy_2026-11-09.xlsx]
+# outputs: [0_data/processed/WIP_2025_fine_clean_<date>.rds,
+#           0_data/processed/WIP_2025_umos_clean_<date>.rds,
+#           0_data/processed/WIP_2025_marchant_counts_<date>.rds,
+#           2_pipeline/2025 taxa for expert review.csv,
+#           2_pipeline/2025 double observations for expert review.csv]
 # notes: 
 #   This script prepares the 2025 invert data for the taxonomic resolution
 #   algorithm. This is separate from the other data prep script because the
@@ -24,7 +30,7 @@ library(tidyverse)
 
 ## 1.3 Import data ----
 # lookup
-lookup <- read_excel("0_data/external/Look-up Table_Invert Taxonomy_2024-08-27.xlsx")
+lookup <- read_excel("0_data/external/Look-up Table_Invert Taxonomy_2026-11-09.xlsx")
 str(lookup)
 
 # fine data 
@@ -154,10 +160,22 @@ need_lookup_df <- tibble::enframe(need_lookup, name = "source", value = "column_
 write_csv(need_lookup_df, "2_pipeline/2025 taxa for expert review.csv")
 
 # 3. Export cleaned data ----
-# Read by "resolve WIP data.R"
-write_rds(coarse_data, "0_data/processed/WIP_2025_coarse_clean.rds")
-write_rds(marchant_counts, "0_data/processed/WIP_2025_marchant_counts.rds")
-write_rds(fine_2025, "0_data/processed/WIP_2025_fine_clean.rds")
-write_rds(umos_2025, "0_data/processed/WIP_2025_umos_clean.rds")
+# Read by "resolve WIP data.R", which needs the same samples in fine and UMOS
+# and a Marchant table with a Sample column.
+# DECISION: samples with no UMOS rows in the workbooks are given zero UMOS counts.
+no_umos_samples <- setdiff(rownames(fine_2025), rownames(umos_2025))
+message(length(no_umos_samples), " fine sample(s) have no UMOS rows; set to zero UMOS counts.")
+umos_2025 <- rbind(
+  umos_2025,
+  matrix(0, nrow = length(no_umos_samples), ncol = ncol(umos_2025),
+         dimnames = list(no_umos_samples, names(umos_2025))) |> as.data.frame()
+)[rownames(fine_2025), ]
+stopifnot(identical(rownames(umos_2025), rownames(fine_2025)))
+
+marchant_counts_2025 <- rename(marchant_counts_2025, Sample = Site)
+
+write_rds(marchant_counts_2025, paste0("0_data/processed/WIP_2025_marchant_counts_", Sys.Date(), ".rds"))
+write_rds(fine_2025, paste0("0_data/processed/WIP_2025_fine_clean_", Sys.Date(), ".rds"))
+write_rds(umos_2025, paste0("0_data/processed/WIP_2025_umos_clean_", Sys.Date(), ".rds"))
 
 # End of script ----

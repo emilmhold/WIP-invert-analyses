@@ -1,7 +1,9 @@
 # ---
 # title: WIP pipeline helpers
+# last edited: 2026-11-05
 # notes:
-#   Shared by "clean WIP data.R" and "resolve WIP data.R" so that the names
+#   Shared by "01_generic clean WIP data.R", "02_build taxa crosswalk.R" and
+#   "03_generic resolve WIP data.R" so that the names
 #   flagged for expert review by the first script are exactly the names the
 #   second script refuses to run on.
 #   Needs readr and tibble (both attached by the tidyverse in the calling scripts).
@@ -46,7 +48,7 @@ read_invert_lookup <- function(file, sheet = 1) {
 # One row per raw name that is not an Analysis_Name in the lookup.
 # lookup_name = NA means "leave out of the analysis".
 # The file is created by "build taxa crosswalk.R" (decisions are listed there).
-read_taxa_crosswalk <- function(file = file.path(reference_dir, "taxa_crosswalk.csv")) {
+read_taxa_crosswalk <- function(file = file.path(reference_dir, "taxa_crosswalk_11.05.2026.csv")) {
   if (!file.exists(file)) {
     stop("Crosswalk not found: ", file, ". Run '1_code/r_scripts/build taxa crosswalk.R' to create it.")
   }

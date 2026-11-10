@@ -7,7 +7,8 @@
 # outputs: [results.csv]
 # notes: 
 #   This script prepares the 2023 invert data for the taxonomic resolution
-#   algorithm.
+#   algorithm. Note that it has been superceded by the "01_generic clean WIP data.R"
+#   script!
 # ---
 
 # 1. Setup ----

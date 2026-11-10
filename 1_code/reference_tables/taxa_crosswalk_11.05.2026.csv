@@ -1,0 +1,170 @@
+﻿raw_name,lookup_name,confidence,status,note,Cheryl note
+Lepidoptrea.UID,Lepidoptera.UID,high,provisional,typo,Agree
+Ceratopogonide,Ceratopogonidae.UID,high,provisional,typo; coarse-level count,Agree
+Ylodes.ruteri,Ylodes.reuteri,high,provisional,typo,Agree
+Liodessus.affinus,Liodessus.affinis,high,provisional,typo,Agree
+Neoporus.superiorus,Neoporus.superioris,high,provisional,typo,Agree
+Peltodytes,Peltodytes.sp.,high,provisional,genus-level name,Agree
+Chironomidae,Chironomidae.UID,high,provisional,"coarse-level count; lookup parent, expect no children so kept as is",Agree
+Tipulidae,Tipulidae.UID,high,provisional,coarse-level count,Agree
+Culicidae,Culicidae.UID,high,provisional,coarse-level count,Agree
+Chaoboridae,Chaoboridae.UID,high,provisional,coarse-level count,Agree
+Other.Diptera,Other.Diptera.UID,high,provisional,coarse-level count,Agree
+Other:.Conchostraca,Conchostraca.UID,high,provisional,coarse-level count,Agree
+Total.Primary.Organisms,,high,provisional,"row total, not a taxon (checked in 3.2)",
+Coenagrion/Enallagma.sp.,Coenagrionidae.UID,medium,provisional,CABIN precedent; lookup Final_ID 'Coenagrion/Enallagma' maps here,Agree
+Hygrotus.sp.,Hygrotus.sp.other,medium,provisional,CABIN precedent,
+Terrestrial,Do.not.analyze,medium,provisional,terrestrial specimens; dropped in 3.3,Agree
+Liodessus.adjectus.?,Liodessus.sp.,low,provisional,"uncertain ID, species not in lookup",Agree - uncertain ID
+Stictotarsus.?,Stictotarsus.sp.,low,provisional,uncertain ID,Agree - uncertain ID
+Planorbella.morph,Planorbella.sp.,low,provisional,morphotype; assumed genus-level,Agree with assumption - genus ID
+Sigara/Callicorixa.sp.,Corixidae.UID,low,provisional,genus pair; family-level parent is the closest lookup row,Agree
+Ishnura.sp.,Ischnura.sp.,medium,provisional,auto-proposed: close spelling of Ischnura.sp. (1 edit),Typo
+Lestes.conjener,Lestes.congener,medium,provisional,auto-proposed: close spelling of Lestes.congener (1 edit),Typo
+Lestes.rectangularis,Lestes.sp.,low,provisional,auto-proposed: name not in lookup; assigned to the genus,Agree - inconsistencies with key; this species is not known from AB and I am not certain on the larval ID. Leave at genus ID only
+Haliplus.cribarius,Haliplus.cribrarius,medium,provisional,auto-proposed: close spelling of Haliplus.cribrarius (1 edit),Typo
+Other:.Anostraca,Anostraca.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Phytobius.luecogaster,Phytobius.leucogaster,medium,provisional,auto-proposed: close spelling of Phytobius.leucogaster (2 edits),Typo
+Lymnaeidae,Lymnaeidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Zygoptera,Zygoptera.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Lestes,Lestes.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Corixinae,Corixinae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Hemiptera,Hemiptera.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Chrysomelidae,Chrysomelidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Hydroporinae,Hydroporinae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Enochrus,Enochrus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Dytiscidae,Dytiscidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Rhantus,Rhantus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Gastropoda,Gastropoda.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Physidae,Physidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Haliplus,Haliplus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Coleoptera,Coleoptera.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Hydrachna,Hydrachna.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Notonecta,Notonecta.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Colymbetes,Colymbetes.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Graphoderus,Graphoderus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Berosus,Berosus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Gammarus,Gammarus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Hyalella,Hyalella.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Dytiscus,Dytiscus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Enallagma,Enallagma.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Chaoborus,Chaoborus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Physa,Physa.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Piona,Piona.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Eylais,Eylais.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Anisoptera,Anisoptera.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Libellulidae,Libellulidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Agabus,Agabus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Arrenurus,Arrenurus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Gyraulus,Gyraulus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Limnephilus,Limnephilus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Laccophilus,Laccophilus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Dasyhelea,Dasyhelea.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Stagnicola,Stagnicola.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Planorbidae,Planorbidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Coenagrion,Coenagrion.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Lynceus,Lynceus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Hirudinida,Hirudinida.UID,medium,provisional,auto-proposed: close spelling of Hirudinea.UID (2 edits),"*See note about Hirudinea now Hirudinida - same group, different spelling*"
+Hydrodroma,Hydrodroma.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Limnesia,Limnesia.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Ilybius,Ilybius.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Leptoceridae,Leptoceridae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Ochthebius,Ochthebius.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Tropisternus,Tropisternus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Chrysops,Chrysops.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Ochthebius.kaszabi,Ochthebius.sp.,low,provisional,auto-proposed: name not in lookup; assigned to the genus,Species name is no longer valid - correct name is O. costatellus. Can be just assigned to genus for current analysis
+Galerucella,Galerucella.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Hydrophilidae,Hydrophilidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Hydroporus,Hydroporus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Ephemeroptera,Ephemeroptera.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Sympetrum,Sympetrum.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Lestidae,Lestidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Lynceidae,Lynceidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Setacera,Setacera.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Hydryphantidae,Hydryphantidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Laccobius,Laccobius.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Cercyon,Cercyon.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Pseudohydryphantes,Pseudohydryphantes.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Hydrochara,Hydrochara.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Baetidae,Baetidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Corixidae,Corixidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Glossiphoniidae,Glossiphoniidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Callibaetis,Callibaetis.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Cymatia,Cymatia.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Theromyzon,Theromyzon.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Gammaridae,Gammaridae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Planorbella,Planorbella.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Sphaerium,Sphaerium.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Pionidae,Pionidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Tanysphyrus,Tanysphyrus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Clambidae,Crambidae.UID,medium,provisional,auto-proposed: close spelling of Crambidae.UID (1 edit),Typo
+Leucorrhinia,Leucorrhinia.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Aeshnidae,Aeshnidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Gyrinus,Gyrinus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Veliidae,Veliidae.UID,high,provisional,auto-proposed: rank suffix added,Agree
+Mesovelia,Mesovelia.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Bagous,Bagous.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Limnephilus.cf.externus,Limnephilus.cf.externus,medium,provisional,auto-proposed: close spelling of Limnephilus.cf. externus (1 edit),Agree
+Lymnaea.jugularis,Lymnaea.stagnalis,low,provisional,auto-proposed: name not in lookup; assigned to the genus,Incorrectly added - should be Lymnaea stagnalis. Jugularis is a subspecies
+Sympetrum.pallipes,Sympetrum.cf.pallipes,low,provisional,auto-proposed: name not in lookup; assigned to the genus,Assign to Sympetrum cf. pallipes
+Neoporus,Neoporus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Aeshna,Aeshna.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Lethocerus,Lethocerus.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Gerris,Gerris.sp.,high,provisional,auto-proposed: rank suffix added,Agree
+Heterozetes.aquaticus,Arachnida.UID,high,,,
+Aedes,Aedes.sp.,high,,,
+Ephydra,Other.Diptera.UID,high,,,
+Laevicaudata,Conchostraca.UID,medium,,,
+Enallagma/Coenagrion,Coenagrionidae.UID,high,,,
+Lestes.disjunctus/rectangularis,Lestes.sp.,medium,,,
+Diptera,Other.Diptera.UID,medium,,,
+Odontomyia/Hedriodiscus,Other.Diptera.UID,medium,,,
+Coenagrion/Enallagma,Coenagrionidae.UID,high,,,
+Macrochelidae,Macrocheles.sp.,high,,,
+Cryptophagidae,Do.not.analyze,high,,,
+Prasocuris.boreella,Do.not.analyze,high,,,
+Lyniphiidae,Do.not.analyze,high,,,
+UID,Do.not.analyze,high,,,
+Carabidae,Do.not.analyze,high,,,
+Ephyridae,Ephydra.sp.,high,,,
+Latridiidae,Do.not.analyze,high,,,
+Telmatophilus.typhae,Do.not.analyze,high,,,
+Telmatophilus.americanus,Do.not.analyze,high,,,
+Lycosidae,Do.not.analyze,high,,,
+Prasocuris.vittata,Do.not.analyze,high,,,
+Staphylinidae,Do.not.analyze,high,,,
+Acrididae,Do.not.analyze,high,,,
+Tricladida,Do.not.analyze,high,,,
+Hydrobius/Limnohydrobius.sp.,Hydrobius/Limnohydrobius,high,,,
+Prasocuris.vittatus,Do.not.analyze,high,,,
+Limmnephilus.externus,Limnephilus.cf.externus,high,,,
+Octhebius.marinus,Ochthebius.marinus,high,,,
+Prasocuris.sp.,Do.not.analyze,high,,,
+Hydroporus/Sanfilippodytes.sp.,Hydroporinae.UID,high,,,
+Arachnida,Arachnida.UID,high,provisional,auto-proposed: rank suffix added,
+Stratiomyidae,Stratiomyidae.UID,high,provisional,auto-proposed: rank suffix added,
+Hydryphantes,Hydryphantes.sp.,high,provisional,auto-proposed: rank suffix added,
+Branchinecta,Branchinecta.sp.,high,provisional,auto-proposed: rank suffix added,
+Dolichopodidae,Dolichopodidae.UID,high,provisional,auto-proposed: rank suffix added,
+Eubranchipus,Eubranchipus.sp.,high,provisional,auto-proposed: rank suffix added,
+Astegistes.sp.1,Astegistes.sp.,low,provisional,auto-proposed: name not in lookup; assigned to the genus,
+Anopheles,Anopheles.sp.,high,provisional,auto-proposed: rank suffix added,
+Atherix,Atherix.sp.,high,provisional,auto-proposed: rank suffix added,
+Ephydridae,Ephydridae.UID,high,provisional,auto-proposed: rank suffix added,
+Aeroppia,Aeroppia.sp.,high,provisional,auto-proposed: rank suffix added,
+Oribatula,Oribatula.sp.,high,provisional,auto-proposed: rank suffix added,
+Macrocheles,Macrocheles.sp.,high,provisional,auto-proposed: rank suffix added,
+Blattisociidae,Blattisociidae.UID,high,provisional,auto-proposed: rank suffix added,
+Homocaligidae,Homocaligidae.UID,high,provisional,auto-proposed: rank suffix added,
+Psychodidae,Psychodidae.UID,high,provisional,auto-proposed: rank suffix added,
+Odontomyia,Odontomyia.sp.,high,provisional,auto-proposed: rank suffix added,
+Baridinae,Bardinae.UID,medium,provisional,auto-proposed: close spelling of Bardinae.UID (1 edit),
+Astegistes,Astegistes.sp.,high,provisional,auto-proposed: rank suffix added,
+Anthomyiidae,Anthomyiidae.UID,high,provisional,auto-proposed: rank suffix added,
+Sciomyzidae,Sciomyzidae.UID,high,provisional,auto-proposed: rank suffix added,
+Saldula,Saldula.sp.,high,provisional,auto-proposed: rank suffix added,
+Syrphidae,Syrphidae.UID,high,provisional,auto-proposed: rank suffix added,
+Hygrotus,Hygrotus.sp.,high,provisional,auto-proposed: rank suffix added,
+Hydrachnidia,Arachnida.UID,,,,
+Hirudinea,Hirudinida.UID,,,,
+Notaris,Notaris.sp.,,,,

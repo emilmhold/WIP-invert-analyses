@@ -2,11 +2,16 @@
 # title: Resolve WIP data (any year)
 # author: Emily H
 # created: "2026-10-27"
-# inputs: [0_data/processed/WIP_<year>_*.rds,
-#          0_data/external/Look-up Table_Invert Taxonomy_<date>.csv,
-#          1_code/reference_tables/*.csv]
-# outputs: [3_output/data/WIP <year> resolved taxa_*.xlsx,
-#           2_pipeline/WIP <year> *.csv / *.rds,
+# last edited: 2026-11-10
+# inputs: [0_data/processed/WIP_<year>_marchant_counts[_]<date>.rds,
+#          0_data/processed/WIP_<year>_fine_clean[_]<date>.rds,
+#          0_data/processed/WIP_<year>_umos_clean[_]<date>.rds,
+#          0_data/external/Look-up Table_Invert Taxonomy_<date>.xlsx (lookup_file),
+#          1_code/reference_tables/taxa_crosswalk_11.05.2026.csv,
+#          1_code/reference_tables/marchant_counts_supplement.csv]
+# outputs: [3_output/data/WIP <year> resolved taxa_<run>.xlsx (run = aptc_abmi / dpac_abmi x frequent / abundant),
+#           2_pipeline/WIP <year> resolved taxa results.rds,
+#           2_pipeline/WIP <year> resolution mass balance.csv,
 #           2_pipeline/<year> taxa crosswalk for expert review.csv]
 # notes:
 #   Year-generic version of "resolve 2023 WIP data.R". Run "clean WIP data.R"
@@ -15,13 +20,15 @@
 #   This script applies a taxonomic resolution algorithm to aquatic
 #     invertebrate data identified to varying resolutions.
 #   It stops if a taxon name is not in the lookup or the crosswalk
-#     (1_code/reference_tables/taxa_crosswalk.csv), or if a sample has no
+#     (1_code/reference_tables/taxa_crosswalk_11.05.2026.csv), or if a sample has no
 #     Marchant count and drop_samples_without_marchant is FALSE.
 #   Open decisions are tagged DECISION:, data gaps DATA GAP: and checks CHECK:.
 #   They are all listed in AGENTS.md.
 # ---
 
 # 1. Setup ----
+rm(list=ls())
+gc()
 
 ## 1.1 Load packages ----
 library(openxlsx)
@@ -32,7 +39,7 @@ library(tidyverse)
 ## 1.2 Settings ----
 # Keep wip_year and lookup_file the same in "clean WIP data.R"
 wip_year <- 2023
-lookup_file <- "0_data/external/Look-up Table_Invert Taxonomy_2023-09-28.csv"
+lookup_file <- "0_data/external/Look-up Table_Invert Taxonomy_2026-11-09.xlsx"
 
 # DECISION: Marchant standardisation. The CABIN pipeline and the 2023 Excel
 # workflow ("RAW 100 + UMOS" sheet) both scale fine counts to 100 cells and do
@@ -57,23 +64,37 @@ run_grid <- expand_grid(
 ) |>
   mutate(run = paste(method, region, sep = "_"))
 
-# DATA GAP: no climate / natural region data for the WIP sites in this repo, so
-# regional fallbacks are study-wide (strata = NULL), like the Chao1 x Chao2
-# step in the Excel workflow.
-strata_primary <- NULL
-strata_secondary <- NULL
+# Natural region of the sites: all WIP sites are in the Parkland natural region.
+# Used as the secondary stratum (natural region) below. The strata vectors are
+# built in section 5, after the samples are matched.
+# DATA GAP: no natural subregions for the WIP sites, so there is no primary
+# stratum (NULL = all sites in one stratum). Parkland as the only stratum gives
+# the same results as no strata; it is set so the assumption is explicit and
+# sites from other regions can be added later.
+natural_region <- "Parkland"
 
 ## 1.3 Source functions ----
 source("1_code/r_scripts/functions/Taxonomic ambiguous assignment abmi_UMOSfix.R")
 source("1_code/r_scripts/functions/WIP pipeline helpers.R")
 
 ## 1.4 Import data ----
-processed_path <- \(name) sprintf("0_data/processed/WIP_%s_%s.rds", wip_year, name)
+# Most recent file for the year: WIP_<year>_<name>[_]<yyyy-mm-dd>.rds (the
+# clean scripts add the run date), else the undated WIP_<year>_<name>.rds
+processed_path <- function(name) {
+  files <- list.files("0_data/processed", full.names = TRUE, pattern = sprintf(
+    "^WIP_%s_%s_?(\\d{4}-\\d{2}-\\d{2})?\\.rds$", wip_year, name))
+  if (length(files) == 0) return(NA_character_)
+  file_date <- str_extract(basename(files), "\\d{4}-\\d{2}-\\d{2}") |> replace_na("0000-00-00")
+  # Same-date files: the most recently written one
+  files[order(file_date, file.mtime(files), decreasing = TRUE)][1]
+}
+# The coarse data are not used by the algorithm, so they are not required
+needed_files <- map_chr(c("marchant_counts", "fine_clean", "umos_clean"), processed_path)
 stopifnot(
-  "Cleaned data not found for wip_year; run 'clean WIP data.R' first" =
-    all(file.exists(processed_path(c("coarse_clean", "marchant_counts", "fine_clean", "umos_clean")))),
+  "Cleaned data not found for wip_year; run the clean script first" = !anyNA(needed_files),
   "lookup_file does not exist" = file.exists(lookup_file)
 )
+message("Reading: ", paste(basename(needed_files), collapse = ", "))
 
 # # coarse data (QA only; the algorithm does not use it)
 # coarse_data <- read_rds(processed_path("coarse_clean"))
@@ -115,7 +136,7 @@ lookup_dupes
 
 ## 3.1 Name crosswalk ----
 # DATA GAP: names in the data that are not Analysis_Name values in the lookup are
-# mapped with 1_code/reference_tables/taxa_crosswalk.csv. Rows with status
+# mapped with 1_code/reference_tables/taxa_crosswalk_11.05.2026.csv. Rows with status
 # "provisional" still need taxonomist sign-off. lookup_name empty = leave out of
 # the analysis.
 #   confidence: high   = spelling variant, or a lookup row for the same ID exists
@@ -128,11 +149,16 @@ taxa_flags <- flag_taxa_names(unique(c(names(fine_clean), names(umos_clean))),
                               Invert_lookup, name_crosswalk)
 needs_review <- filter(taxa_flags, handled_by == "NEEDS REVIEW")
 if (nrow(needs_review) > 0) {
+  # Most recent review file for this year (its name ends in the run date)
+  review_file <- list.files("2_pipeline", pattern = sprintf(
+    "^%s taxa for expert review( [0-9]{4}-[0-9]{2}-[0-9]{2})?\\.csv$", wip_year))
+  review_date <- str_extract(review_file, "[0-9]{4}-[0-9]{2}-[0-9]{2}") |> replace_na("0000-00-00")
+  review_file <- review_file[order(review_date, decreasing = TRUE)][1]
   stop(nrow(needs_review), " taxon name(s) are not in the lookup or the crosswalk: ",
        paste(needs_review$column_name, collapse = ", "),
-       ".\nThey are listed in '2_pipeline/", wip_year, " taxa for expert review.csv' ",
+       ".\nThey are listed in '2_pipeline/", review_file, "' ",
        "(written by 'clean WIP data.R'). Once the taxonomist has decided, add a row for each to ",
-       file.path(reference_dir, "taxa_crosswalk.csv"), " (or add the taxon to the lookup).")
+       file.path(reference_dir, "taxa_crosswalk_11.05.2026.csv"), " (or add the taxon to the lookup).")
 }
 
 # Crosswalk rows used by this year's data, with specimen counts, for review
@@ -147,12 +173,16 @@ crosswalk_used <- name_crosswalk |>
 count(crosswalk_used, status, confidence)
 
 ## 3.2 Apply crosswalk ----
-# CHECK: the row total should equal the sum of every other fine column
-stopifnot(
-  "Fine data has no row total column" = row_total_col %in% names(fine_clean),
-  "Row total column does not equal the sum of the other fine columns" =
-    all(rowSums(select(fine_clean, -all_of(row_total_col))) == fine_clean[[row_total_col]])
-)
+# CHECK: the row total, where the fine data has one (2023 and 2024 do, 2025
+# does not), should equal the sum of every other fine column
+if (row_total_col %in% names(fine_clean)) {
+  stopifnot(
+    "Row total column does not equal the sum of the other fine columns" =
+      all(rowSums(select(fine_clean, -all_of(row_total_col))) == fine_clean[[row_total_col]])
+  )
+} else {
+  message("No '", row_total_col, "' column in the fine data for ", wip_year, "; row total check skipped.")
+}
 
 # Rename columns using the crosswalk; columns that end up with the same name are summed
 apply_crosswalk <- function(x, crosswalk) {
@@ -255,8 +285,8 @@ run_samples <- setdiff(rownames(fine_in), no_marchant_count)
 sample_checks <- list(
   fine_not_umos     = setdiff(rownames(fine_in), rownames(umos_in)),
   umos_not_fine     = setdiff(rownames(umos_in), rownames(fine_in)),
-  fine_not_coarse   = setdiff(rownames(fine_in), rownames(coarse_data)),
-  coarse_not_fine   = setdiff(rownames(coarse_data), rownames(fine_in)),
+  # fine_not_coarse   = setdiff(rownames(fine_in), rownames(coarse_data)),
+  # coarse_not_fine   = setdiff(rownames(coarse_data), rownames(fine_in)),
   no_marchant_count = no_marchant_count
 )
 sample_checks
@@ -268,13 +298,13 @@ if (length(missing_umos) > 0) {
 }
 
 # CHECK: fine totals vs coarse totals
-coarse_vs_fine <- tibble(
-  sample = intersect(rownames(coarse_data), rownames(fine_clean)),
-  coarse_total = rowSums(coarse_data[sample, ] |> mutate(across(everything(), as.numeric)), na.rm = TRUE),
-  fine_total = fine_clean[sample, row_total_col]
-) |>
-  filter(coarse_total != fine_total)
-coarse_vs_fine
+# coarse_vs_fine <- tibble(
+#   sample = intersect(rownames(coarse_data), rownames(fine_clean)),
+#   coarse_total = rowSums(coarse_data[sample, ] |> mutate(across(everything(), as.numeric)), na.rm = TRUE),
+#   fine_total = fine_clean[sample, row_total_col]
+# ) |>
+#   filter(coarse_total != fine_total)
+# coarse_vs_fine
 
 ## 4.2 Scale fine data ----
 mc <- mc_table$Marchant.Cells.Counted[match(run_samples, mc_table$Sample)]
@@ -289,6 +319,11 @@ umos_bal <- umos_in[run_samples, ]
 mmdata <- fn_matchdata(data = fine_bal, aux.data = umos_bal)
 fine_bal <- mmdata$data
 umos_bal <- mmdata$aux.data
+
+# One value per row, in the row order of the data
+strata_primary <- NULL
+strata_secondary <- rep(natural_region, nrow(fine_bal))
+stopifnot(length(strata_secondary) == nrow(fine_bal), identical(rownames(fine_bal), rownames(umos_bal)))
 
 # CHECK: NAs prevent the algorithm from running
 c(fine = anyNA(fine_bal), umos = anyNA(umos_bal))

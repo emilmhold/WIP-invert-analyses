@@ -9,7 +9,8 @@
 #     invertebrate data identified to varying resolutions.
 #   Run "clean 2023 WIP data.R" first (it writes the cleaned inputs).
 #   Open decisions are tagged DECISION:, data gaps DATA GAP: and checks CHECK:.
-#   They are all listed in AGENTS.md.
+#   They are all listed in AGENTS.md. Note that this script has been superceded by
+#   "03_generic resolve WIP data.R"!
 # ---
 
 # 1. Setup ----

@@ -2,14 +2,16 @@
 # title: Build taxa crosswalk
 # author: Emily H
 # created: "2026-10-29"
-# inputs: [0_data/processed/WIP_<year>_fine_clean.rds,
-#          0_data/processed/WIP_<year>_umos_clean.rds,
-#          0_data/external/Look-up Table_Invert Taxonomy_<date>.csv/.xlsx,
-#          1_code/reference_tables/taxa_crosswalk.csv]
-# outputs: [1_code/reference_tables/taxa_crosswalk.csv]
+# last edited: 2026-11-10
+# inputs: [0_data/processed/WIP_<year>_fine_clean[_]<date>.rds (latest dated, else undated),
+#          0_data/processed/WIP_<year>_umos_clean[_]<date>.rds (latest dated, else undated),
+#          0_data/external/Look-up Table_Invert Taxonomy_<date>.xlsx (lookup_file),
+#          1_code/reference_tables/taxa_crosswalk_11.05.2026.csv (annotated)]
+# outputs: [1_code/reference_tables/taxa_crosswalk_11.05.2026.csv (rows appended),
+#           1_code/reference_tables/taxa_unresolved<date>.csv]
 # notes:
 #   Proposes crosswalk rows for the taxon names in the fine and UMOS data of the
-#   years in wip_years, and appends them to taxa_crosswalk.csv. Run
+#   years in wip_years, and appends them to taxa_crosswalk_11.05.2026.csv. Run
 #   "clean WIP data.R" first (it writes the cleaned data this script reads), then
 #   this script, then "resolve WIP data.R".
 #   Only names that are not already handled are considered: not an Analysis_Name
@@ -21,18 +23,24 @@
 #   Names no rule can map (name pairs such as A/B.sp., names with no genus in the
 #   lookup) are listed but NOT added: an empty lookup_name means "leave out", so
 #   resolve keeps stopping on them until someone adds a row by hand.
+#   The crosswalk is the annotated file (taxonomist notes in extra columns).
+#   New rows are appended at the bottom of it with the same column order; the
+#   annotation columns stay empty for them. Hand-added rows may have an empty
+#   confidence or status.
 #   Re-run "clean WIP data.R" afterwards to refresh the expert review file.
 #   Run from the project root.
 # ---
 
 # 1. Setup ----
+rm(list=ls())
+gc()
 
 ## 1.1 Settings ----
 # Years whose cleaned fine and UMOS data are scanned for names
-wip_years <- 2023
+wip_years <- c(2023, 2024, 2025)
 
 # Same lookup as in "clean WIP data.R" and "resolve WIP data.R"
-lookup_file <- "0_data/external/Look-up Table_Invert Taxonomy_2024-08-27.xlsx"
+lookup_file <- "0_data/external/Look-up Table_Invert Taxonomy_2026-11-09.xlsx"
 
 # TRUE: print the proposals but do not write the crosswalk
 dry_run <- FALSE
@@ -41,7 +49,9 @@ dry_run <- FALSE
 library(tidyverse)
 source("1_code/r_scripts/functions/WIP pipeline helpers.R")
 
-crosswalk_file <- file.path(reference_dir, "taxa_crosswalk.csv")
+# Annotated crosswalk (taxonomist notes in extra columns). Read as is; missing
+# names are appended at the bottom, existing rows and columns are not touched.
+crosswalk_file <- file.path(reference_dir, "taxa_crosswalk_11.05.2026.csv")
 
 # 2. Proposal rules ----
 # Applied in this order to a name that is not handled yet; the first rule that
@@ -104,10 +114,19 @@ propose_mapping <- function(raw_name, lookup_names) {
 stopifnot("lookup_file does not exist" = file.exists(lookup_file))
 lookup <- read_invert_lookup(lookup_file)
 
-processed_path <- \(year, name) sprintf("0_data/processed/WIP_%s_%s.rds", year, name)
-needed_files <- c(outer(wip_years, c("fine_clean", "umos_clean"), processed_path))
+# Most recent dated file for the year (WIP_<year>_<name>[_]<yyyy-mm-dd>.rds);
+# the 2025 files have no underscore before the date
+processed_path <- function(year, name) {
+  files <- list.files("0_data/processed",
+                      pattern = sprintf("^WIP_%s_%s_?\\d{4}-\\d{2}-\\d{2}\\.rds$", year, name),
+                      full.names = TRUE)
+  if (length(files) == 0) return(NA_character_)
+  sort(files, decreasing = TRUE)[1]
+}
+needed_files <- c(outer(wip_years, c("fine_clean", "umos_clean"), Vectorize(processed_path)))
 stopifnot("Cleaned data not found; run 'clean WIP data.R' for each year in wip_years first" =
-            all(file.exists(needed_files)))
+            !anyNA(needed_files))
+message("Reading: ", paste(basename(needed_files), collapse = ", "))
 
 # One row per name, year and source, with specimen counts
 data_names <- expand_grid(year = wip_years, source = c("fine_clean", "umos_clean")) |>
@@ -156,14 +175,20 @@ if (nrow(unresolved) > 0) {
 # 5. Checks and write ----
 crosswalk_new <- bind_rows(existing, proposals)
 
-# CHECK: the same format rules read_taxa_crosswalk() enforces, plus allowed values
+# CHECK: the same format rules read_taxa_crosswalk() enforces, plus allowed
+# values. Rows added by hand to the annotated file may have confidence or status
+# still empty, so only filled-in values are checked.
 stopifnot(
   "Duplicated raw_name" = !anyDuplicated(crosswalk_new$raw_name),
   "confidence must be high, medium or low" =
-    all(crosswalk_new$confidence %in% c("high", "medium", "low")),
+    all(crosswalk_new$confidence %in% c("high", "medium", "low", NA)),
   "status must be provisional or confirmed" =
-    all(crosswalk_new$status %in% c("provisional", "confirmed"))
+    all(crosswalk_new$status %in% c("provisional", "confirmed", NA))
 )
+n_incomplete <- sum(is.na(crosswalk_new$confidence) | is.na(crosswalk_new$status))
+if (n_incomplete > 0) {
+  message(n_incomplete, " crosswalk row(s) have an empty confidence or status (hand-added).")
+}
 
 # CHECK: every lookup_name must exist in the lookup (as an Analysis_Name or a
 # Taxon_Analysis group); resolve stops on any that do not
@@ -179,9 +204,15 @@ if (nrow(proposals) == 0) {
 } else if (dry_run) {
   message("dry_run: ", nrow(proposals), " proposed row(s) not written.")
 } else {
-  dir.create(reference_dir, showWarnings = FALSE, recursive = TRUE)
-  write_csv(crosswalk_new, crosswalk_file, na = "")
-  message("Added ", nrow(proposals), " row(s) to ", crosswalk_file,
+  # Append only the new rows, with the columns in the file's order (extra
+  # annotation columns stay empty), so the existing lines are left byte for byte
+  file_cols <- names(read_csv(crosswalk_file, n_max = 0, show_col_types = FALSE))
+  new_rows <- proposals |>
+    mutate(!!!set_names(rep(list(NA_character_), length(setdiff(file_cols, names(proposals)))),
+                        setdiff(file_cols, names(proposals)))) |>
+    select(all_of(file_cols))
+  write_csv(new_rows, crosswalk_file, na = "", append = TRUE, eol = "\r\n")
+  message("Appended ", nrow(proposals), " row(s) to ", crosswalk_file,
           " (", nrow(crosswalk_new), " in total). Review them, then re-run 'clean WIP data.R'.")
 }
 
@@ -189,7 +220,7 @@ if (nrow(proposals) == 0) {
 # One file shared across years: an open to-do list of names that still need a
 # hand-made crosswalk row. Names seen in earlier runs are kept as they are, new
 # names are appended, and names that now have a crosswalk row are dropped.
-unresolved_file <- file.path(reference_dir, "taxa_unresolved.csv")
+unresolved_file <- file.path(reference_dir, paste0("taxa_unresolved", Sys.Date(), ".csv"))
 
 unresolved_empty <- tibble(raw_name = character(), years = character(), n_specimens = numeric())
 unresolved_existing <- if (file.exists(unresolved_file)) {
