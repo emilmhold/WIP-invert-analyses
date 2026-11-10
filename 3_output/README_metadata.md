@@ -1,9 +1,5 @@
 # Metadata: WIP aquatic invertebrate resolved-taxa outputs
 
-Draft, 2026-11-10. Describes the 12 workbooks in `3_output/data/`. Written from the
-current scripts and by checking the workbooks against `2_pipeline/WIP <year> resolved taxa results.rds`
-(all 12 match sheet for sheet). Items that need confirmation are marked **TO CONFIRM**.
-
 ## 1. What these files are
 
 Aquatic invertebrate counts from the ABMI / DUC Wetland Invertebrate (WIP) samples, with
