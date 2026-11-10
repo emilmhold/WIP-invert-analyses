@@ -64,14 +64,15 @@ run_grid <- expand_grid(
 ) |>
   mutate(run = paste(method, region, sep = "_"))
 
-# Natural region of the sites: all WIP sites are in the Parkland natural region.
-# Used as the secondary stratum (natural region) below. The strata vectors are
-# built in section 5, after the samples are matched.
-# DATA GAP: no natural subregions for the WIP sites, so there is no primary
-# stratum (NULL = all sites in one stratum). Parkland as the only stratum gives
-# the same results as no strata; it is set so the assumption is explicit and
-# sites from other regions can be added later.
+# Natural region and subregion of the sites: all WIP sites are in the Central
+# Parkland natural subregion (Parkland natural region). The subregion is the
+# primary stratum and the region the secondary stratum below. The strata vectors
+# are built in section 5, after the samples are matched.
+# With a single subregion and region, results are the same as with no strata;
+# they are set so the assumption is explicit and sites from other areas can be
+# added later.
 natural_region <- "Parkland"
+natural_subregion <- "Central Parkland"
 
 ## 1.3 Source functions ----
 source("1_code/r_scripts/functions/Taxonomic ambiguous assignment abmi_UMOSfix.R")
@@ -321,9 +322,9 @@ fine_bal <- mmdata$data
 umos_bal <- mmdata$aux.data
 
 # One value per row, in the row order of the data
-strata_primary <- NULL
+strata_primary <- rep(natural_subregion, nrow(fine_bal))
 strata_secondary <- rep(natural_region, nrow(fine_bal))
-stopifnot(length(strata_secondary) == nrow(fine_bal), identical(rownames(fine_bal), rownames(umos_bal)))
+stopifnot(length(strata_primary) == nrow(fine_bal), length(strata_secondary) == nrow(fine_bal), identical(rownames(fine_bal), rownames(umos_bal)))
 
 # CHECK: NAs prevent the algorithm from running
 c(fine = anyNA(fine_bal), umos = anyNA(umos_bal))

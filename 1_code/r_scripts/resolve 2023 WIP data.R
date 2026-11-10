@@ -58,9 +58,10 @@ run_grid <- expand_grid(
 ) |>
   mutate(run = paste(method, region, sep = "_"))
 
-# DATA GAP: no climate / natural region data for the WIP sites in this repo, so
-# regional fallbacks are study-wide (strata = NULL), like the Chao1 x Chao2
-# step in the Excel workflow.
+# All WIP sites are in the Central Parkland natural subregion (Parkland natural
+# region), so a single stratum is the same as study-wide fallbacks (strata = NULL),
+# like the Chao1 x Chao2 step in the Excel workflow. This original script is left
+# unchanged in behaviour; the generic resolve script sets the strata explicitly.
 strata_primary <- NULL
 strata_secondary <- NULL
 

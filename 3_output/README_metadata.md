@@ -25,8 +25,9 @@ WIP <year> resolved taxa_<method>_<region>.xlsx
 All four combinations are exported because the final choice is still TBD.
 The 2023 WIP Excel workflow was DPAC-SG; the CABIN pipeline used APTC-frequent.
 
-Fallback regions: every WIP site is treated as Parkland natural region (one stratum). No
-natural subregions are available, so the fallback uses all sites.
+Fallback regions: every WIP site is in the Central Parkland natural subregion (Parkland
+natural region). The subregion is the primary stratum and the region the secondary stratum,
+so there is one stratum at each level and the fallback uses all sites.
 
 ## 2. Sheets in each workbook
 
