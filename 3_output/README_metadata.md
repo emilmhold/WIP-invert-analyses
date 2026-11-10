@@ -81,11 +81,6 @@ search for mature specimens; its counts are not scaled).
 | `Out.combined` total (APTC) | 671,476 | 892,127 | 281,369 |
 | Most abundant taxon | `Chironomidae.UID` (186,349) | `Chironomidae.UID` (428,699) | `Chironomidae.UID` (105,224) |
 
-Sample IDs:
-
-- 2023: `Hattie 1-A spr`, wetland - replicate (A/B) - season (`spr`, `sum`). The Hattie 5 C/D samples are "invert/plant" samples.
-- 2024: `Armitage-01-spr`, site - number - season.
-- 2025: `218613-21-1_spring` / `_summer`. **TO CONFIRM**: meaning of the numeric parts.
 
 ## 5. How the numbers were produced
 
