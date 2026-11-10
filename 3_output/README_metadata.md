@@ -111,17 +111,7 @@ Scripts (run from the project root, in this order):
 - Taxa listed in `Nochild.data` (for example `Chironomidae.UID`, `Enallagma.sp.` in 2025) are parents with no
   children in the lookup, so their counts stay at the parent level. `Chironomidae.UID` is the largest part of the
   total in every year (about 28% in 2023, 48% in 2024, 37% in 2025), so be careful with totals and richness that include it.
-- **Choice of run changes the numbers.** In 2025, compared with `aptc_abmi_frequent`, `aptc_abmi_abundant`
+- **Choice of resolution method changes the numbers.** In 2025, compared with `aptc_abmi_frequent`, `aptc_abmi_abundant`
   differs in 70 cells of `Out.combined`, `dpac_abmi_frequent` in 98 and `dpac_abmi_abundant` in 160
   (of 8,600). Parents with a single child send 100% to that child under every run. Use the same run for all years.
 - Samples are not pooled: A/B replicates (2023) are separate rows.
-
-Reading in R:
-
-```r
-library(openxlsx)
-x <- read.xlsx("3_output/data/WIP 2025 resolved taxa_aptc_abmi_frequent.xlsx",
-               sheet = "Out.combined", rowNames = TRUE)
-# readxl: the first column is the sample ID; rename it, for example
-# readxl::read_xlsx(path, sheet = "Out.combined") |> dplyr::rename(sample = 1)
-```
