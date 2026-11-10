@@ -22,8 +22,8 @@ WIP <year> resolved taxa_<method>_<region>.xlsx
 | `region` | `frequent` | If a site has no children for a parent, use the child that is most widespread (found in the most sites) across the data (Chao2-like) |
 | | `abundant` | Same fallback, but use the child with the highest total abundance (Chao1-like) |
 
-All four combinations are exported because the final choice is still open (see section 7).
-The 2023 Excel workflow was DPAC-SG; the CABIN pipeline used APTC-frequent.
+All four combinations are exported because the final choice is still TBD.
+The 2023 WIP Excel workflow was DPAC-SG; the CABIN pipeline used APTC-frequent.
 
 Fallback regions: every WIP site is treated as Parkland natural region (one stratum). No
 natural subregions are available, so the fallback uses all sites.
