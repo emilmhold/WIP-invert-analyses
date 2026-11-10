@@ -134,36 +134,3 @@ x <- read.xlsx("3_output/data/WIP 2025 resolved taxa_aptc_abmi_frequent.xlsx",
 # readxl: the first column is the sample ID; rename it, for example
 # readxl::read_xlsx(path, sheet = "Out.combined") |> dplyr::rename(sample = 1)
 ```
-
-## 7. Caveats and open items
-
-- **Provisional crosswalk.** Almost all crosswalk rows are `provisional` (taxonomist sign-off pending). Some
-  rows added later have an empty status and confidence (for example `Notaris` -> `Notaris.sp.`). Low-confidence
-  mappings and the rows used are listed in `2_pipeline/<year> taxa crosswalk for expert review.csv`.
-  Examples with a large effect in 2023: `Sigara/Callicorixa.sp.` -> `Corixidae.UID`, `Planorbella.morph` -> `Planorbella.sp.`.
-- **Draft algorithm fix.** The workbooks were produced with `..._UMOSfix.R`, which keeps UMOS counts of ambiguous
-  parents that the original functions dropped (about 50 of 398 UMOS specimens in 2023). The fix has not yet been
-  checked with Ermias Azeria. `Nochild.data.aux` exists only because of this fix.
-- **Algorithm choice not made.** APTC vs DPAC and frequent vs abundant are still a decision (Emily / Jenet).
-- **Lookup version.** The scripts currently point to `Look-up Table_Invert Taxonomy_2026-11-09.xlsx`, but the
-  workbooks do not record which lookup file made them. **TO CONFIRM** it was the same for all three years; re-run if not.
-- **2023 Hattie 5 C/D (16 samples).** Marchant counts are back-calculated from the Excel workflow
-  (`marchant_counts_supplement.csv`), not source counts.
-- **2024 sample `Squair-08`.** The 2024 input had a duplicated ID (`Squair-08-sum`). Both `Squair-08-spr` and
-  `Squair-08-sum` are in the output, but `sample_id_corrections.csv` is empty, so check how it was fixed. **TO CONFIRM** with the lab.
-- **2025 UMOS.** 27 samples had no UMOS rows and were given zero UMOS counts (assumes no UMOS specimens, not missing data). **TO CONFIRM** with the lab.
-- **2025 double observations.** `2_pipeline/2025 double observations for expert review.csv` appears to list records duplicated in the input (**TO CONFIRM**).
-- **Lookup duplicates.** Some `Analysis_Name` values appear twice in the lookup and the first row is used (for example `Gastropoda.UID`). No effect found in 2023; not checked for 2024 or 2025.
-- Left out of the analysis: specimens mapped to `Do.not.analyze` (for example `Terrestrial`) and names with a blank crosswalk `lookup_name` (for example `Saldidae.UID`, 2023).
-
-## 8. Related files
-
-| File | What it is |
-|---|---|
-| `2_pipeline/WIP <year> resolved taxa results.rds` | Same results as the workbooks, as a list of 4 runs x 12 tables |
-| `2_pipeline/WIP <year> resolution mass balance.csv` | Per run: counts in and out (`main_in`, `main_out`, `combined_in`, `combined_out`), `max_site_diff_main`, `combined_gap` (in minus out) |
-| `2_pipeline/<year> taxa crosswalk for expert review.csv` | Crosswalk rows used by that year, with `n_fine` and `n_umos` specimen counts |
-| `2_pipeline/<year> taxa for expert review*.csv` | Names not in the lookup, written by the clean script |
-| `1_code/reference_tables/` | Crosswalk, Marchant supplement, sample ID corrections |
-
-`0_data`, `2_pipeline` and `3_output` are git-ignored, so these files are not under version control.
