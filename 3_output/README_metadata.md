@@ -104,8 +104,8 @@ Scripts (run from the project root, in this order):
 - **Values are standardised counts, not raw counts and not densities.** Fine counts were scaled
   to a 100-cell Marchant subsample and rounded. A sample where only 5 cells were counted is
   multiplied by 20, so rare taxa in such samples are inflated.
-- Values should be whole numbers. Totals match the input exactly for APTC. For DPAC, rounding
-  makes totals differ slightly from the input (2023: +9 specimens over 95 samples, at most 1 per sample;
+- Values should be whole numbers. **Totals match the input exactly for APTC. For DPAC, rounding
+  makes totals differ slightly from the input** (2023: +9 specimens over 95 samples, at most 1 per sample;
   2024: +2; 2025: 0). See `2_pipeline/WIP <year> resolution mass balance.csv`.
 - Use `Out.combined` for community analyses. It includes UMOS specimens.
 - Taxa listed in `Nochild.data` (for example `Chironomidae.UID`, `Enallagma.sp.` in 2025) are parents with no
