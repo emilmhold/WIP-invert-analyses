@@ -45,7 +45,11 @@ vignettes/*.pdf
 !2_pipeline/*.gitkeep
 
 # Ignore everything in 3_output
-3_output/*
-!3_output/*.gitkeep
+3_output/figures
+3_output/maps
+3_output/models
+3_output/tables
+3_output/data
+
 
 AGENTS.md
